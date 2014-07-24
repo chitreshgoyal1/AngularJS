@@ -1,0 +1,80 @@
+
+
+.repeat-animation {
+  position:relative;
+}
+
+.repeat-animation.ng-enter-stagger,
+.repeat-animation.ng-leave-stagger,
+.repeat-animation.ng-move-stagger {
+  /* notice how we're using animation instead of transition here */ 
+  -webkit-animation-delay:0.3s;
+  animation-delay:0.3s;
+
+  /* yes we still need to do this too */
+  -webkit-animation-duration:0;
+  animation-duration:0;
+}
+
+.repeat-animation.ng-move,
+.repeat-animation.ng-enter {
+  opacity:0;
+  -webkit-animation:enter_animation 0.5s;
+  animation:enter_animation 0.5s;
+}
+
+.repeat-animation.ng-leave {
+  -webkit-animation:leave_animation 0.4s;
+  animation:leave_animation 0.4s;
+}
+
+@-webkit-keyframes enter_animation {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+
+@keyframes enter_animation {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+
+@-webkit-keyframes leave_animation {
+  from { opacity:1; }
+  to { opacity:0; }
+}
+
+@keyframes leave_animation {
+  from { opacity:1; }
+  to { opacity:0; }
+}
+
+
+/* Animation 2  use class --animate */
+.animate.ng-enter, 
+	.animate.ng-leave
+	{ 
+		-webkit-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+		-moz-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+		-ms-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+		-o-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+		transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+		position: relative;
+		display: block;
+		overflow: hidden;
+		text-overflow: clip;
+		white-space:nowrap;
+	} 
+	
+	.animate.ng-leave.animate.ng-leave-active,
+	.animate.ng-enter {
+		opacity: 0;
+		width: 0px;
+		height: 0px;
+	}
+	
+	.animate.ng-enter.ng-enter-active, 
+	.animate.ng-leave {
+		opacity: 1;
+		width: 150px;
+		height: 30px;
+	}

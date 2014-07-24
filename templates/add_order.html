@@ -1,0 +1,100 @@
+	
+	<!-- No need to define controller here if you have added in routes 	 -->
+	<!-- <div ng-controller="OrdersController"> -->
+	
+	
+	
+	<h2>{{ header }}</h2>
+
+	 	<form role="form" name="userForm">
+		    <div class="form-group">
+		    	<label>Order</label> 
+		        <input type="text" class="form-control" 
+		        ng-minlength="3"
+		        ng-maxlength="10"
+		        required
+		        name="name" ng-model="neworder.name" placeholder="Samsung Galaxy S4"/>
+		    </div>
+ 			
+ 			<pre>userForm.name.$error = {{ userForm.name.$error | json }}</pre>
+			<!-- <div ng-messages="userForm.name.$error" style="color:red">
+				<div ng-message="required">You did not enter a field</div>
+				<div ng-message="minlength">Your field is too short</div>
+				<div ng-message="maxlength">Your field is too long</div>
+			</div> -->
+  
+		    <div class="form-group">    
+		    	<label>Email</label> 
+		        <input type="text" class="form-control" name="email" ng-model="neworder.email" placeholder="Samsung@gmail.com" required/>
+		    </div>
+
+		    <div class="form-group">    
+		    	<label>Phone</label> 
+		        <input type="text" class="form-control" name="phone" ng-model="neworder.phone" placeholder="+91-9610223577 / 123-2343-44"/>
+		    </div>    
+		    <div class="form-group">
+				<input type="hidden" ng-model="neworder.id" />
+			</div>
+			<button type="submit" class="btn btn-default" ng-show='add_order' value="submit" ng-click="addNewOrder(neworder)">Submit</button>
+			<button type="button" class="btn btn-default"  ng-show='update_order' value="Update" ng-click="update(neworder)">Update</button>
+			<button type="reset" class="btn btn-default"  ng-show='update_order' value="Cancel" ng-click="reset()">Cancel</button>
+	    </form>
+	 	<br />
+
+
+		<div class="well">
+		<form class="form-inline" role="form">
+			<div class="form-group input-append" ng-show="!showDiv" ng-swipe-right="showDiv = true">
+				<label for="searchText">Search (Swipe -> for Advance Search)</label>
+				<input class="form-control" id="searchText" ng-model="searchText">
+			</div>
+			<div class="form-group  input-append" ng-show="showDiv" ng-swipe-left="showDiv = false">
+				Advance Search<br/>	
+				<label for="nameSearch">Name Search (Swipe <- for Global Search)</label>
+				<input class="form-control" id="nameSearch" placeholder="Viral" ng-model="search.name">
+				
+				<label for="phoneSearch">Phone</label>
+				<input class="form-control" id="phoneSearch" ng-model="search.phone">
+			</div>
+		</form>
+		</div>
+		
+		
+		<a class="btn btn-primary" ng-mousedown="order.generate()"  ng-href="{{ order.link() }}" download="Orders.csv">Table Export</a>
+		<!-- <a href="" class="btn btn-primary" ng-csv="orders" filename="Orders.csv" csv-header="['Id','Name','Email','Phone']">Export to CSV</a> -->
+		 <button class="btn btn-default" ng-csv="orders" filename="order.csv">Export to CSV</button>
+
+		<table ng-table="tableParams" class="table ng-table-responsive" export-csv="order" id="searchTextResults">
+			<thead> 
+				<tr>
+					<th colspan="5">
+					
+						</th>
+				</tr>
+				<tr>
+				    <th><a href="" ng-click = "predicate = 'id'; reverse=!reverse">ID</a></th>
+				    <th><a href="" ng-click = "predicate = 'name'; reverse=!reverse">Name</a></th>
+				    <th><a href="" ng-click = "predicate = 'email'; reverse=false">Email</a></th>
+				    <th><a href="" ng-click = "predicate = 'phone'; reverse=!reverse">Phone</a></th>
+				    <th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr class="repeat-animation" ng-repeat="order in $data| filter:searchText | filter:search:strict | orderBy:predicate:reverse">
+			    <td data-title="'Id'">{{ order.id }}</td>
+			    <td data-title="'Name'">{{ order.name }}</td>
+			    <td data-title="'Email'">{{ order.email }}</td>
+			    <td data-title="'Phone'">{{ order.phone }}</td>
+			    <td>
+			        <a href="#" ng-click="edit(order.id)">edit</a> | 
+			        <a href="#" ng-click="delete(order.id)">delete</a>
+			    </td>
+			 </tr>
+			</tbody>
+		</table>
+		
+		<h3>Grid Example:</h3>
+		<br />
+		<!-- <div class="gridStyle" ng-grid="{ data: 'orders' }"></div> -->
+		<div class="gridStyle" ng-grid="gridOptions"></div>
+		<br />
